@@ -1,0 +1,11 @@
+name = "alarm-do"
+main = "src/index.js"
+compatibility_date = "2024-03-08"
+
+[[durable_objects.bindings]]
+name = "ALARM_DO"
+class_name = "AlarmObject"
+
+[[migrations]]
+tag = "v1"
+new_classes = ["AlarmObject"]
