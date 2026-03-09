@@ -4,7 +4,24 @@ export class AlarmObject {
   }
 
   async fetch(request) {
-    return new Response("Alarm DO läuft");
+    const url = new URL(request.url);
+    
+    if (url.pathname === "/start") {
+      await this.state.storage.setAlarm(Date.now() + 5000);
+      return new Response("⏰ Alarm gestartet");
+    }
+    
+    if (url.pathname === "/tick") {
+      const lastTick = await this.state.storage.get("lastTick") || 0;
+      return new Response(JSON.stringify({ lastTick }));
+    }
+    
+    return new Response("OK");
+  }
+
+  async alarm() {
+    await this.state.storage.put("lastTick", Date.now());
+    await this.state.storage.setAlarm(Date.now() + 5000);
   }
 }
 
